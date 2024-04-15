@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "techmania",
+  "version": "1.0.0",
+  "name": "Techmania",
+  "description": "Kys",
+  "authors": [
+    "KoblizekXD"
+  ],
+  "license": "MIT",
+  "icon": "assets/modid/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "lol.koblizek.techmania.TechmaniaMod"
+    ]
+  },
+  "mixins": [
+    "techmania.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.9",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
