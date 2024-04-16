@@ -134,7 +134,7 @@ public record Face(Style style, List<Entry> faceEntries) implements Instructable
             }
 
             RenderSystem.setShader(style.program);
-            RenderSystem.setShaderTexture(0, new Identifier("minecraft", "textures/block/stone.png"));
+            RenderSystem.setShaderTexture(0, model.texture);
             RenderSystem.enableDepthTest();
             RenderSystem.depthFunc(GL11.GL_LEQUAL);
             tessellator.draw();

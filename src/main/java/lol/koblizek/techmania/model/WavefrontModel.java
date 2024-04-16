@@ -1,7 +1,6 @@
 package lol.koblizek.techmania.model;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
@@ -22,14 +21,16 @@ public final class WavefrontModel {
     public static final Logger LOGGER = LoggerFactory.getLogger("Techmania/Model Loader");
 
     private final Identifier modelId;
+    final Identifier texture;
     private List<DefinitionEntry> entries;
     private List<ModelObject> objects;
     List<Vector3f> vertices;
     List<Vector3f> normals;
     List<Vector2f> textures;
 
-    public WavefrontModel(Identifier modelId) {
+    public WavefrontModel(Identifier modelId, Identifier texture) {
         this.modelId = modelId;
+        this.texture = texture;
         this.reload();
     }
 
