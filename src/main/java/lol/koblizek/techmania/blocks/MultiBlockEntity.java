@@ -32,14 +32,14 @@ public class MultiBlockEntity extends BlockEntity {
 
     @Override
     public void readNbt(NbtCompound nbt) {
-        nbt.putIntArray("slave_box", new int[] {slaveBox.getX(), slaveBox.getY(), slaveBox.getZ()});
+        int[] arr = nbt.getIntArray("slave_box");
+        this.slaveBox = new Vec3i(arr[0], arr[1], arr[2]);
         super.readNbt(nbt);
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        int[] arr = nbt.getIntArray("slave_box");
-        this.slaveBox = new Vec3i(arr[0], arr[1], arr[2]);
+        nbt.putIntArray("slave_box", new int[] {slaveBox.getX(), slaveBox.getY(), slaveBox.getZ()});
         super.writeNbt(nbt);
     }
 

@@ -5,7 +5,9 @@ import lol.koblizek.techmania.blocks.types.NonRenderingNonEntityBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
@@ -16,17 +18,18 @@ public class FillerBlock extends NonRenderingNonEntityBlock implements BlockEnti
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         FillerBlockEntity entity = world.getBlockEntity(pos, FillerBlockEntity.FILLER_BLOCK_ENTITY).get();
         Vector3i off = entity.getMasterOffset();
-        MultiBlockEntity master = world.getBlockEntity(pos.add(off.x, off.y, off.z), MultiBlockEntity.MULTIBLOCK_ENTITY).get();
+        MultiBlockEntity master = world.getBlockEntity(pos.add(-off.x, -off.y, -off.z), MultiBlockEntity.MULTIBLOCK_ENTITY).get();
         master.removeAllFillers();
+        return super.onBreak(world, pos, state, player);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         // world.addBlockEntity(new FillerBlockEntity(p, world.getBlockState(p)));
-        return new FillerBlockEntity(pos, state);
+        return null;
     }
 }
