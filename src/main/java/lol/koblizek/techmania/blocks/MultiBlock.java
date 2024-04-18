@@ -1,16 +1,17 @@
 package lol.koblizek.techmania.blocks;
 
 import lol.koblizek.techmania.blocks.types.NonRenderingBlock;
+import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
@@ -33,20 +34,28 @@ public class MultiBlock extends NonRenderingBlock {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        Vec3i vec = world.getBlockEntity(pos, MultiBlockEntity.MULTIBLOCK_ENTITY).get()
+        MultiBlockEntity multiBlockEntity = world.getBlockEntity(pos, MultiBlockEntity.MULTIBLOCK_ENTITY).get();
+        Vec3i vec = multiBlockEntity
                 .getSlaveBox();
-        for (int x = 0; x < vec.getX(); x++) {
-            for (int y = 0; y < vec.getY(); y++) {
-                for (int z = 0; z < vec.getZ(); z++) {
-                    BlockPos p = pos.add(x, y, z);
-                    if (!p.equals(pos)) {
-                        ModBlocks.FILLER.getDefaultState();
-                        world.setBlockState(p, ModBlocks.FILLER.getDefaultState());
-                        FillerBlockEntity entity = new FillerBlockEntity(p, world.getBlockState(p));
-                        entity.setMasterOffset(new Vector3i(x, y, z));
-                        world.addBlockEntity(entity);
+        Direction facing = placer.getHorizontalFacing();
+        multiBlockEntity.setDirection(facing);
+        Pos p = new Pos(pos);
+        for (int i = 0; i < vec.getY(); i++, p = p.oneUp()) {
+            Pos pi = p;
+            for (int j = 0; j < vec.getX(); j++) {
+                Pos pj = pi;
+                for (int k = 0; k < vec.getZ(); k++) {
+                    if (!pj.equals(pos)) {
+                        BlockState s = ModBlocks.FILLER.getDefaultState();
+                        FillerBlockEntity e = new FillerBlockEntity(pj, s);
+                        e.setDirection(facing.getOpposite());
+                        e.setMasterOffset(new Vector3i(j, i, k));
+                        world.setBlockState(pj, s);
+                        world.addBlockEntity(e);
                     }
+                    pj = pj.oneForward(facing);
                 }
+                pi = pi.oneRight(facing);
             }
         }
     }
@@ -54,16 +63,7 @@ public class MultiBlock extends NonRenderingBlock {
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         Optional<MultiBlockEntity> entOpt = world.getBlockEntity(pos,  MultiBlockEntity.MULTIBLOCK_ENTITY);
-        Vec3i v = entOpt.get().getSlaveBox();
-        for (int i = 0; i < v.getX(); i++) {
-            for (int j = 0; j < v.getY(); j++) {
-                for (int k = 0; k < v.getZ(); k++) {
-                    BlockPos p = pos.add(i, j, k);
-                    if (world.getBlockState(p).getBlock() == ModBlocks.FILLER);
-                    world.removeBlock(p, false);
-                }
-            }
-        }
+        entOpt.get().removeAllFillers(entOpt.get().getDirection());
         return super.onBreak(world, pos, state, player);
     }
 }

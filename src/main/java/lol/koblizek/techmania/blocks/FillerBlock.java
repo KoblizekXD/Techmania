@@ -2,6 +2,7 @@ package lol.koblizek.techmania.blocks;
 
 import lol.koblizek.techmania.blocks.types.NonRenderingBlock;
 import lol.koblizek.techmania.blocks.types.NonRenderingNonEntityBlock;
+import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -20,9 +21,11 @@ public class FillerBlock extends NonRenderingNonEntityBlock implements BlockEnti
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         FillerBlockEntity entity = world.getBlockEntity(pos, FillerBlockEntity.FILLER_BLOCK_ENTITY).get();
+        Pos p = new Pos(pos);
         Vector3i off = entity.getMasterOffset();
-        MultiBlockEntity master = world.getBlockEntity(pos.add(-off.x, -off.y, -off.z), MultiBlockEntity.MULTIBLOCK_ENTITY).get();
-        master.removeAllFillers();
+        p = p.up(-off.y).right(entity.getDirection(), off.x).forward(entity.getDirection(), off.z);
+        MultiBlockEntity master = world.getBlockEntity(p, MultiBlockEntity.MULTIBLOCK_ENTITY).get();
+        master.removeAllFillers(master.getDirection());
         return super.onBreak(world, pos, state, player);
     }
 

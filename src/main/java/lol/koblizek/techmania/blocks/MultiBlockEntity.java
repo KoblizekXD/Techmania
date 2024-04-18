@@ -1,15 +1,13 @@
 package lol.koblizek.techmania.blocks;
 
-import lol.koblizek.techmania.TechmaniaMod;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
 public class MultiBlockEntity extends BlockEntity {
@@ -17,6 +15,7 @@ public class MultiBlockEntity extends BlockEntity {
     public static BlockEntityType<MultiBlockEntity> MULTIBLOCK_ENTITY;
 
     private Vec3i slaveBox;
+    private Direction direction;
 
     public MultiBlockEntity(BlockPos pos, BlockState state) {
         super(MULTIBLOCK_ENTITY, pos, state);
@@ -24,6 +23,14 @@ public class MultiBlockEntity extends BlockEntity {
 
     public void setSlaves(Vec3i slaves) {
         this.slaveBox = slaves;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     public Vec3i getSlaveBox() {
@@ -43,10 +50,19 @@ public class MultiBlockEntity extends BlockEntity {
         super.writeNbt(nbt);
     }
 
-    public void removeAllFillers() {
-        for (BlockPos p : BlockPos.iterate(pos, pos.add(slaveBox))) {
-            world.removeBlock(p, false);
+    public void removeAllFillers(Direction facing) {
+        Vec3i vec = getSlaveBox();
+        Pos p = new Pos(pos);
+        for (int i = 0; i < vec.getY(); i++, p = p.oneUp()) {
+            Pos pi = p;
+            for (int j = 0; j < vec.getX(); j++) {
+                Pos pj = pi;
+                for (int k = 0; k < vec.getZ(); k++) {
+                    world.removeBlock(pj, false);
+                    pj = pj.oneForward(facing);
+                }
+                pi = pi.oneRight(facing);
+            }
         }
-        slaveBox = new Vec3i(0, 0, 0);
     }
 }

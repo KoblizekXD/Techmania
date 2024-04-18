@@ -10,6 +10,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.joml.Vector3i;
 
 public class FillerBlockEntity extends BlockEntity {
@@ -17,9 +18,18 @@ public class FillerBlockEntity extends BlockEntity {
     public static BlockEntityType<FillerBlockEntity> FILLER_BLOCK_ENTITY;
 
     private Vector3i masterOffset;
+    private Direction direction;
 
     public void setMasterOffset(Vector3i masterOffset) {
         this.masterOffset = masterOffset;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public FillerBlockEntity(BlockPos pos, BlockState state) {

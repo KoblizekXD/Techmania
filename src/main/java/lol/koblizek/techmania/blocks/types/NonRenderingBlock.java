@@ -1,10 +1,8 @@
 package lol.koblizek.techmania.blocks.types;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +13,11 @@ public class NonRenderingBlock extends Block implements BlockEntityProvider {
     public NonRenderingBlock(Settings settings, BlockEntityProvider provider) {
         super(settings);
         this.provider = provider;
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(HorizontalFacingBlock.FACING);
     }
 
     @Override
