@@ -11,7 +11,7 @@ public class NonRenderingBlock extends Block implements BlockEntityProvider {
     private final BlockEntityProvider provider;
 
     public NonRenderingBlock(Settings settings, BlockEntityProvider provider) {
-        super(settings);
+        super(settings.nonOpaque());
         this.provider = provider;
     }
 

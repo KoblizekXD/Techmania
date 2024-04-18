@@ -13,6 +13,9 @@
   "entrypoints": {
     "main": [
       "lol.koblizek.techmania.TechmaniaMod"
+    ],
+    "client": [
+      "lol.koblizek.techmania.client.TechmaniaClientMod"
     ]
   },
   "mixins": [

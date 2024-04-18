@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 
 public class NonRenderingNonEntityBlock extends Block {
     public NonRenderingNonEntityBlock(Settings settings) {
-        super(settings);
+        super(settings.nonOpaque());
     }
 
     @Override
