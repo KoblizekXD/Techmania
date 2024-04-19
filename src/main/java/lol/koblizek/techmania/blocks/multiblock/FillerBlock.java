@@ -1,4 +1,4 @@
-package lol.koblizek.techmania.blocks;
+package lol.koblizek.techmania.blocks.multiblock;
 
 import lol.koblizek.techmania.blocks.types.NonRenderingNonEntityBlock;
 import lol.koblizek.techmania.util.Pos;

@@ -1,10 +1,9 @@
-package lol.koblizek.techmania.blocks;
+package lol.koblizek.techmania.blocks.multiblock;
 
 import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -52,10 +51,15 @@ public class MultiBlockEntity extends BlockEntity {
 
     public void removeAllFillers(Direction facing) {
         Vec3i vec = getSlaveBox();
+        int shift = 0;
         Pos p = new Pos(pos);
+        if (vec.getX() % 2 == 1) {
+            shift = vec.getX() / 2;
+            p = p.left(facing, shift);
+        }
         for (int i = 0; i < vec.getY(); i++, p = p.oneUp()) {
             Pos pi = p;
-            for (int j = 0; j < vec.getX(); j++) {
+            for (int j = -shift; j < vec.getX() - shift; j++) {
                 Pos pj = pi;
                 for (int k = 0; k < vec.getZ(); k++) {
                     world.removeBlock(pj, false);

@@ -1,7 +1,10 @@
 package lol.koblizek.techmania.blocks;
 
 import lol.koblizek.techmania.TechmaniaMod;
-import lol.koblizek.techmania.blocks.types.NonRenderingBlock;
+import lol.koblizek.techmania.blocks.multiblock.FillerBlock;
+import lol.koblizek.techmania.blocks.multiblock.FillerBlockEntity;
+import lol.koblizek.techmania.blocks.multiblock.MultiBlock;
+import lol.koblizek.techmania.blocks.multiblock.MultiBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -11,12 +14,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3i;
-import org.joml.Vector3i;
 
 public final class ModBlocks {
 
     public static final Block FILLER = new FillerBlock(FabricBlockSettings.create());
-    public static final Block MULTIBLOCK = new MultiBlock(new Vec3i(2, 2, 2), FabricBlockSettings.create());
+    public static final Block MULTIBLOCK = new MultiBlock(new Vec3i(3, 3, 3), FabricBlockSettings.create());
 
     private ModBlocks() {}
 

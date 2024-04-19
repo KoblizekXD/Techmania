@@ -1,20 +1,17 @@
-package lol.koblizek.techmania.blocks;
+package lol.koblizek.techmania.blocks.multiblock;
 
+import lol.koblizek.techmania.blocks.ModBlocks;
 import lol.koblizek.techmania.blocks.types.NonRenderingBlock;
 import lol.koblizek.techmania.util.Pos;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.BlockView;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Math;
 import org.joml.Vector3i;
 
 import java.util.Optional;
@@ -42,9 +39,14 @@ public class MultiBlock extends NonRenderingBlock {
         Direction facing = placer.getHorizontalFacing();
         multiBlockEntity.setDirection(facing);
         Pos p = new Pos(pos);
+        int shift = 0;
+        if (boxSize.getX() % 2 == 1) {
+            shift = vec.getX() / 2;
+            p = p.left(facing, shift);
+        }
         for (int i = 0; i < vec.getY(); i++, p = p.oneUp()) {
             Pos pi = p;
-            for (int j = 0; j < vec.getX(); j++) {
+            for (int j = -shift; j < vec.getX() - shift; j++) {
                 Pos pj = pi;
                 for (int k = 0; k < vec.getZ(); k++) {
                     if (!pj.equals(pos)) {

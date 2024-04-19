@@ -21,10 +21,10 @@ public class Pos extends BlockPos {
     public BlockPos oneLeft(Direction direction) {
         switch (direction) {
             case NORTH -> {
-                return add(1, 0, 0);
+                return add(-1, 0, 0);
             }
             case SOUTH -> {
-                return add(-1, 0, 0);
+                return add(1, 0, 0);
             }
             case WEST -> {
                 return add(0, 0, 1);
@@ -38,19 +38,19 @@ public class Pos extends BlockPos {
         }
     }
 
-    public BlockPos left(Direction direction, int i) {
+    public Pos left(Direction direction, int i) {
         switch (direction) {
             case NORTH -> {
-                return add(i, 0, 0);
+                return new Pos(add(-1 * i, 0, 0));
             }
             case SOUTH -> {
-                return add(-1 * i, 0, 0);
+                return new Pos(add(i, 0, 0));
             }
             case WEST -> {
-                return add(0, 0, i);
+                return new Pos(add(0, 0, i));
             }
             case EAST -> {
-                return add(0, 0, -1 * i);
+                return new Pos(add(0, 0, -1 * i));
             }
             default -> {
                 return this;

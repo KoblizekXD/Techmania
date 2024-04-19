@@ -1,14 +1,11 @@
-package lol.koblizek.techmania.blocks;
+package lol.koblizek.techmania.blocks.multiblock;
 
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.enums.Attachment;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 public class FillerBlockEntity extends BlockEntity {
