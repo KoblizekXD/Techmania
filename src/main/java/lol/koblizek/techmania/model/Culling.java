@@ -12,9 +12,9 @@ public class Culling implements Instructable {
 
     @Override
     public void render(WavefrontModel model, MatrixStack matrixStack) {
-        if (arg.equals("on"))
+        if (arg.equals("on") || arg.equals("true") || arg.equals("1"))
             RenderSystem.enableCull();
-        else if (arg.equals("off"))
+        else if (arg.equals("off") || arg.equals("false") || arg.equals("0"))
             RenderSystem.disableCull();
         else WavefrontModel.LOGGER.warn("Unknown culling argument: {}", arg);
     }

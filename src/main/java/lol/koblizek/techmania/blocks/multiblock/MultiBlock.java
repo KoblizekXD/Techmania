@@ -2,12 +2,15 @@ package lol.koblizek.techmania.blocks.multiblock;
 
 import lol.koblizek.techmania.blocks.ModBlocks;
 import lol.koblizek.techmania.blocks.types.NonRenderingBlock;
+import lol.koblizek.techmania.model.BlockRenderer;
+import lol.koblizek.techmania.model.WavefrontModel;
 import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +19,7 @@ import org.joml.Vector3i;
 
 import java.util.Optional;
 
-public class MultiBlock extends NonRenderingBlock {
+public class MultiBlock extends NonRenderingBlock implements BlockRenderer<MultiBlockEntity> {
     private final Vec3i boxSize;
 
     public MultiBlock(Vec3i boxSize, Settings settings) {
@@ -69,5 +72,12 @@ public class MultiBlock extends NonRenderingBlock {
         Optional<MultiBlockEntity> entOpt = world.getBlockEntity(pos,  MultiBlockEntity.MULTIBLOCK_ENTITY);
         entOpt.get().removeAllFillers(entOpt.get().getDirection());
         return super.onBreak(world, pos, state, player);
+    }
+
+    public static WavefrontModel MODEL;
+
+    @Override
+    public WavefrontModel getModel() {
+        return MODEL;
     }
 }

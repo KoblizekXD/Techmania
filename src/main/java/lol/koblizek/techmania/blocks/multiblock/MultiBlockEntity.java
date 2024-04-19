@@ -1,10 +1,13 @@
 package lol.koblizek.techmania.blocks.multiblock;
 
+import lol.koblizek.techmania.model.BlockRenderer;
+import lol.koblizek.techmania.model.WavefrontModel;
 import lol.koblizek.techmania.util.Pos;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -40,12 +43,14 @@ public class MultiBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         int[] arr = nbt.getIntArray("slave_box");
         this.slaveBox = new Vec3i(arr[0], arr[1], arr[2]);
+        this.direction = Direction.byId(nbt.getInt("direction"));
         super.readNbt(nbt);
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         nbt.putIntArray("slave_box", new int[] {slaveBox.getX(), slaveBox.getY(), slaveBox.getZ()});
+        nbt.putInt("direction", direction.getId());
         super.writeNbt(nbt);
     }
 
